@@ -25,7 +25,8 @@ use Cake\Event\Event;
  *
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends Controller 
+{
 
 	use \Crud\Controller\ControllerTrait;
 
@@ -36,8 +37,6 @@ class AppController extends Controller {
 				'Crud.Index',
 				'Crud.View',
 				'Crud.Add',
-				'Crud.Edit',
-				'Crud.Delete',
 			],
 			'listeners' => [
 				'Crud.Api',
@@ -54,18 +53,31 @@ class AppController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function initialize() {
+	public function initialize() 
+	{
 		parent::initialize();
 		$this->loadComponent('Flash');
+		$this->loadComponent('Auth', [
+			'loginAction' => [
+				'controller' => 'Sessions',
+				'action' => 'add',
+			],
+		]);
 	}
 
 	/**
-	 * overwrite beforeFilter to enable CORS
+	 * overwrite beforeFilter to enable CORS, Auth & OPTIONS-Request
 	 *
 	 * @param Event $event
 	 * @return void
 	 */
-	public function beforeFilter(Event $event) {
+	public function beforeFilter(Event $event) 
+	{
+		/* disable views & templates */
+		$this->autoRender = false;
+
+		/* Allow users to register and logout */
+		$this->Auth->allow();
 
 		/* allow all origins */
 		$allowed_origin = $this->request->header("Origin");
