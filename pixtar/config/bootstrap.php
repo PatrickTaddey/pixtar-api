@@ -200,3 +200,9 @@ DispatcherFactory::add('ControllerFactory');
  * This is needed for matching the auto-localized string output of Time() class when parsing dates.
  */
 Type::build('datetime')->useLocaleParser();
+
+Plugin::load('Crud', []);
+
+Plugin::load('Crud', []);
+
+Plugin::load('Crud', []);
