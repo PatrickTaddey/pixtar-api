@@ -16,6 +16,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Network\Email\Email;
 use Cake\ORM\TableRegistry;
+use Cake\Core\Configure;
 
 class UsersController extends AppController 
 {
@@ -133,7 +134,7 @@ class UsersController extends AppController
 		      ->template('users_optin')
 		      ->emailFormat('html')
 		      ->viewVars([
-			      'link' => "http://localhost:8765/users/activate.json?activation_key=" . $activation_key,
+			      'link' => Configure::read('activation_url') . $activation_key,
 		      ])
 		      ->send();
 	}
