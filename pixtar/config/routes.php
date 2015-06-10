@@ -62,6 +62,7 @@ Router::scope('/', function ($routes) {
 	 */
 	$routes->resources('Users');
 	$routes->resources('Images');
+	$routes->resources('Sessions');
 
 	/**
 	 * Connect catchall routes for all controllers.
