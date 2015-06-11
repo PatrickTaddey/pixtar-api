@@ -17,9 +17,22 @@ use App\Controller\AppController;
 use Cake\Network\Email\Email;
 use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 
 class UsersController extends AppController 
 {
+	/**
+	 * overwrite beforeFilter to allow add & activate action
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function beforeFilter(Event $event) 
+	{
+		$this->Auth->allow(["add", "activate"]);
+		parent::beforeFilter($event);
+	}
+
 	/**
 	 * list users - disabled
 	 *

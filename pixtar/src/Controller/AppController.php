@@ -77,7 +77,7 @@ class AppController extends Controller
 		$this->autoRender = false;
 
 		/* Allow users to register and logout */
-		$this->Auth->allow();
+		//$this->Auth->allow();
 
 		/* allow all origins for now */
 		$allowedOrigin = $this->request->header("Origin");

@@ -20,6 +20,19 @@ use Cake\Event\Event;
 
 class ImagesController extends AppController 
 {
+
+	/**
+	 * overwrite beforeFilter to allow index & view action
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function beforeFilter(Event $event) 
+	{
+		$this->Auth->allow(["view", "index"]);
+		parent::beforeFilter($event);
+	}
+
 	/**
 	 * view image
 	 *

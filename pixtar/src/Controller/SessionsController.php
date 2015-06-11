@@ -14,6 +14,7 @@
  */
 namespace App\Controller;
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 class SessionsController extends AppController 
 {
@@ -24,6 +25,18 @@ class SessionsController extends AppController
 	 */
 	public $uses = array();
 	public $autoRender = false;
+
+	/**
+	 * overwrite beforeFilter to allow add & delete action
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function beforeFilter(Event $event) 
+	{
+		$this->Auth->allow(["add", "delete"]);
+		parent::beforeFilter($event);
+	}
 
 	/**
 	 * disabled
@@ -78,6 +91,7 @@ class SessionsController extends AppController
 				echo json_encode(["message" => "login incorrect"]);
 			}
 		}
+		exit();
 	}
 
 	/**
@@ -85,9 +99,7 @@ class SessionsController extends AppController
 	 * @todo
 	 * @return void
 	 */
-	private function delete() {
-		$this->autoRender = false;
-
+	public function delete() {
 		$this->Auth->logout();
 		$this->response->statusCode(200);
 		echo json_encode(["message" => "Der Benutzer wurde abgemeldet."]);
