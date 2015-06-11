@@ -16,37 +16,53 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
 
 class ImagesController extends AppController 
 {
 	/**
-	 * @var array $paginate
+	 * view image
+	 *
 	 * @return void
 	 */
-	public $paginate = [
-		'page' => 1,
-		'limit' => 5,
-	];
+	public function view($id) 
+	{
+		header("Content-type: image/jpeg");
+		$file_content = file_get_contents(WWW_ROOT . 'upload' . DS . $id);
+		$image = str_replace('data:image/jpeg;base64,', '', $file_content);
+		echo base64_decode($image);
+		exit;
+	}
 
 	/**
-	 * list users - disabled
+	 * list images
 	 *
 	 * @return void
 	 */
 	public function index() 
 	{
-		$this->response->statusCode(405);
-		echo json_encode(["message" => "Method Not Allowed"]);
-	}
-
-	/**
-	 * view image
-	 *
-	 * @todo display images
-	 * @return void
-	 */
-	public function view($id) 
-	{
+		$query = $this->Images->find("all", [
+			'fields' => [
+				"Images.id", 
+				"Images.name", 
+				"Images.description", 
+				"users.username"
+			]
+		])
+		->hydrate(false)
+		->contain(['Users'])
+		->order(["Images.id" => "DESC"])
+		->join([
+			'users' => [
+				'table' => 'users',
+				'type' => 'INNER',
+				'conditions' => 'users.id = Images.users_id',
+			]
+		]);
+		$results = $query->all();
+		$data = $results->toArray();
+		$this->response->statusCode(200);
+		echo json_encode(["data" => $data]);
 	}
 
 	/**

@@ -20,7 +20,6 @@ use Cake\Core\Configure;
 
 class UsersController extends AppController 
 {
-
 	/**
 	 * list users - disabled
 	 *

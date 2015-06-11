@@ -49,9 +49,9 @@ class SessionsController extends AppController
 					echo json_encode([
 						"message" => "resource created",
 						"data" => [
-							"csrftoken" => md5($user["id"]),
 							"username" => $user["username"],
-							"id" => $user["id"],
+							"session_id" => session_id(),
+							"session_name" => session_name()
 						],
 					]);
 

@@ -89,6 +89,5 @@ class AppController extends Controller
 			header("Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS");
 			exit;
 		}
-
 	}
 }
