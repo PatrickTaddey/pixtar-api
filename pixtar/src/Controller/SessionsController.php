@@ -23,6 +23,7 @@ class SessionsController extends AppController
 	 * @var array
 	 */
 	public $uses = array();
+	public $autoRender = false;
 
 	/**
 	 * disabled
@@ -31,7 +32,6 @@ class SessionsController extends AppController
 	 */
 	public function index() 
 	{
-		$this->autoRender = false;
 		$this->response->statusCode(405);
 		echo json_encode(["message" => "Method Not Allowed"]);
 	}
@@ -43,8 +43,6 @@ class SessionsController extends AppController
 	 */
 	public function add() 
 	{
-		$this->autoRender = false;
-
 		if ($this->request->is('post')) {
 
 			/* check login, identify user */
@@ -71,12 +69,12 @@ class SessionsController extends AppController
 
 				} else {
 					/* error: user inactive */
-					$this->response->statusCode(405);
+					header("HTTP/1.1 405");
 					echo json_encode(["message" => "user inactive"]);
 				}
 			} else {
 				/* error: login incorrect */
-				$this->response->statusCode(401);
+				header("HTTP/1.1 401");
 				echo json_encode(["message" => "login incorrect"]);
 			}
 		}
