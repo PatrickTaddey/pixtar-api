@@ -208,4 +208,4 @@ Plugin::load('Crud', []);
 Plugin::load('Crud', []);
 
 /* store activation_url in the application’s configuration */
-Configure::write('activation_url', "http://pixtar.nubsie.de/activate/");
+Configure::write('activation_url', "http://pixtar.nubsie.de/#activate/");
