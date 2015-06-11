@@ -322,5 +322,6 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'session.cookie_domain' => '*'
     ],
 ];

@@ -25,12 +25,26 @@ class SessionsController extends AppController
 	public $uses = array();
 
 	/**
+	 * disabled
+	 *
+	 * @return void
+	 */
+	public function index() 
+	{
+		$this->autoRender = false;
+		$this->response->statusCode(405);
+		echo json_encode(["message" => "Method Not Allowed"]);
+	}
+
+	/**
 	 * add session
 	 *
 	 * @return void
 	 */
 	public function add() 
 	{
+		$this->autoRender = false;
+
 		if ($this->request->is('post')) {
 
 			/* check login, identify user */
@@ -74,6 +88,8 @@ class SessionsController extends AppController
 	 * @return void
 	 */
 	private function delete() {
+		$this->autoRender = false;
+
 		$this->Auth->logout();
 		$this->response->statusCode(200);
 		echo json_encode(["message" => "Der Benutzer wurde abgemeldet."]);
