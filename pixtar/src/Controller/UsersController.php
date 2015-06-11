@@ -20,6 +20,7 @@ use Cake\Core\Configure;
 
 class UsersController extends AppController 
 {
+
 	/**
 	 * list users - disabled
 	 *
@@ -106,14 +107,21 @@ class UsersController extends AppController
 		$user = $query->first();
 
 		/* check result */
-		if ($query->count() == 1 && $user->active == 0) {
-			$user->active = 1;
-			$this->Users->save($user);
-			$this->response->statusCode(200);
-			echo json_encode(["message" => "resource updated successfully"]);
+		if ($query->count() == 1) {
+
+			/* check if account is already active */
+			if($user->active == 0) {
+				$user->active = 1;
+				$this->Users->save($user);
+				$this->response->statusCode(200);
+				echo json_encode(["message" => "resource updated successfully"]);
+			} else {
+				$this->response->statusCode(409);
+				echo json_encode(["message" => "Der Account ist schon aktiviert"]);
+			}
 		} else {
 			$this->response->statusCode(409);
-			echo json_encode(["message" => "activation key not valid or user already active"]);
+			echo json_encode(["message" => "Der Aktivierungscode ist nicht gültig."]);
 		}
 	}
 
