@@ -77,18 +77,18 @@ class AppController extends Controller
 		$this->autoRender = false;
 
 		/* Allow users to register and logout */
-		$this->Auth->allow();
+		$this->Auth->allow(["index", "add", "activate"]);
 
-		/* allow all origins */
-		$allowed_origin = $this->request->header("Origin");
-		header("Access-Control-Allow-Origin: " . $allowed_origin);
+		/* allow all origins for now */
+		$allowedOrigin = $this->request->header("Origin");
+		header("Access-Control-Allow-Origin: " . $allowedOrigin);
 		header("Access-Control-Allow-Credentials: true");
 		header("Access-Control-Allow-Headers: X-CSRF-Token,X-Requested-With,Content-Type");
 
-		/* handle options */
 		if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
 			header("Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS");
 			exit;
 		}
+
 	}
 }
