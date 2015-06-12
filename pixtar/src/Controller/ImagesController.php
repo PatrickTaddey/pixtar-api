@@ -20,7 +20,14 @@ use Cake\Event\Event;
 
 class ImagesController extends AppController 
 {
-
+	public $uses = ["Users"];
+	public $paginate = [
+        'limit' => 5,
+        'page' =>1,
+        'contain' => ['Users'],
+		'sort' => 'id',
+		'direction' => 'desc',
+    ];
 	/**
 	 * overwrite beforeFilter to allow index & view action
 	 *
@@ -45,37 +52,6 @@ class ImagesController extends AppController
 		$image = str_replace('data:image/jpeg;base64,', '', $file_content);
 		echo base64_decode($image);
 		exit;
-	}
-
-	/**
-	 * list images
-	 *
-	 * @return void
-	 */
-	public function index() 
-	{
-		$query = $this->Images->find("all", [
-			'fields' => [
-				"Images.id", 
-				"Images.name", 
-				"Images.description", 
-				"users.username"
-			]
-		])
-		->hydrate(false)
-		->contain(['Users'])
-		->order(["Images.id" => "DESC"])
-		->join([
-			'users' => [
-				'table' => 'users',
-				'type' => 'INNER',
-				'conditions' => 'users.id = Images.users_id',
-			]
-		]);
-		$results = $query->all();
-		$data = $results->toArray();
-		$this->response->statusCode(200);
-		echo json_encode(["data" => $data]);
 	}
 
 	/**
