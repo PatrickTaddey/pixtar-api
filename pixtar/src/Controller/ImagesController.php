@@ -27,6 +27,7 @@ class ImagesController extends AppController
         'contain' => ['Users'],
 		'sort' => 'id',
 		'direction' => 'desc',
+		'fields' => ['id', 'name', 'description', 'Users.username'],
     ];
 	/**
 	 * overwrite beforeFilter to allow index & view action
