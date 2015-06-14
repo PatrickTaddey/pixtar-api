@@ -29,6 +29,7 @@ class ImagesController extends AppController
 		'direction' => 'desc',
 		'fields' => ['id', 'name', 'description', 'Users.username'],
     ];
+
 	/**
 	 * overwrite beforeFilter to allow index & view action
 	 *
@@ -39,6 +40,23 @@ class ImagesController extends AppController
 	{
 		$this->Auth->allow(["view", "index"]);
 		parent::beforeFilter($event);
+	}
+
+	/**
+	 * list images & enable filtering
+	 *
+	 * @param Event $event
+	 * @return void
+	 */
+	public function index() 
+	{
+		$this->Crud->on('beforePaginate', function(\Cake\Event\Event $event) {
+			if(isset($this->request->query['filter']) === true) {
+				$this->paginate['conditions']['description'] = $this->request->query['filter'];
+			}
+		});		
+
+		return $this->Crud->execute();	
 	}
 
 	/**
